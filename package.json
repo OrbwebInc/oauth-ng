@@ -5,7 +5,7 @@
   "description": "AngularJS Directive for OAuth 2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andreareginato/oauth-ng"
+    "url": "https://github.com/liamlin/oauth-ng"
   },
   "dependencies": {},
   "devDependencies": {

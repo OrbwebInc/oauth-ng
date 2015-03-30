@@ -5,7 +5,7 @@ var endpointClient = angular.module('oauth.endpoint', []);
 endpointClient.factory('Endpoint', function(AccessToken, $location) {
 
   var service = {};
-  var url;
+  var url = {};
 
 
   /*
@@ -15,10 +15,11 @@ endpointClient.factory('Endpoint', function(AccessToken, $location) {
   service.set = function(params) {
     var oAuthScope = (params.scope) ? params.scope : '',
         state = (params.state) ? encodeURIComponent(params.state) : '',
-        authPathHasQuery = (params.authorizePath.indexOf('?') == -1) ? false : true,
+        authPathHasQuery = (params.authorizePath.indexOf('?') != -1),
+        backend = (params.backend) ? params.backend : 'default',
         appendChar = (authPathHasQuery) ? '&' : '?';    //if authorizePath has ? already append OAuth2 params
 
-    url = params.site +
+    url[backend] = params.site +
           params.authorizePath +
           appendChar + 'response_type=' + params.responseType + '&' +
           'client_id=' + encodeURIComponent(params.clientId) + '&' +
@@ -33,8 +34,8 @@ endpointClient.factory('Endpoint', function(AccessToken, $location) {
    * Returns the authorization URL
    */
 
-  service.get = function() {
-    return url;
+  service.get = function(backend) {
+    return url[backend] || url['default'];
   };
 
 
@@ -42,8 +43,8 @@ endpointClient.factory('Endpoint', function(AccessToken, $location) {
    * Redirects the app to the authorization URL
    */
 
-  service.redirect = function() {
-    window.location.replace(url);
+  service.redirect = function(backend) {
+    window.location.replace(url[backend]);
   };
 
   return service;

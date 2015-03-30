@@ -5,8 +5,8 @@ describe('Endpoint', function() {
   var result, $location, $sessionStorage, Endpoint;
 
   var fragment = 'access_token=token&token_type=bearer&expires_in=7200&state=/path';
-  var params   = { site: 'http://example.com', clientId: 'client-id', redirectUri: 'http://example.com/redirect', scope: 'scope', authorizePath: '/oauth/authorize', responseType: 'token' };
-  var uri      = 'http://example.com/oauth/authorize?response_type=token&client_id=client-id&redirect_uri=http%3A%2F%2Fexample.com%2Fredirect&scope=scope&state=';
+  var params   = { site: 'http://example.com', clientId: 'client-id', backend: '', redirectUri: 'http://example.com/redirect', scope: 'scope', authorizePath: '/oauth/authorize', responseType: 'token' };
+  var uri      = { default: 'http://example.com/oauth/authorize?response_type=token&client_id=client-id&redirect_uri=http%3A%2F%2Fexample.com%2Fredirect&scope=scope&state='};
 
   beforeEach(module('oauth'));
 
@@ -50,8 +50,10 @@ describe('Endpoint', function() {
           result = Endpoint.set(paramsClone);
       });
 
+      var expectedUri = JSON.parse(JSON.stringify(uri));
+      expectedUri.default = expectedUri.default + 'test';
       it('uri should not be in state', function() {
-          expect(result).toEqual(uri + 'test');
+          expect(result).toEqual(expectedUri);
       });
     });
 
@@ -67,7 +69,7 @@ describe('Endpoint', function() {
       });
 
       it('uri should not be in state', function() {
-          var expectedUri = 'http://example.com/oauth/authorize?google=doesthis&response_type=token&client_id=client-id&redirect_uri=http%3A%2F%2Fexample.com%2Fredirect&scope=scope&state=';
+          var expectedUri = { default: 'http://example.com/oauth/authorize?google=doesthis&response_type=token&client_id=client-id&redirect_uri=http%3A%2F%2Fexample.com%2Fredirect&scope=scope&state='};
           expect(result).toEqual(expectedUri);
       });
     });
@@ -84,7 +86,7 @@ describe('Endpoint', function() {
       });
 
       it('uri should not be in state', function() {
-          var expectedUri = 'http://example.com?response_type=token&client_id=client-id&redirect_uri=http%3A%2F%2Fexample.com%2Fredirect&scope=scope&state=';
+          var expectedUri = {default: 'http://example.com?response_type=token&client_id=client-id&redirect_uri=http%3A%2F%2Fexample.com%2Fredirect&scope=scope&state='};
           expect(result).toEqual(expectedUri);
       });
     });
@@ -101,7 +103,7 @@ describe('Endpoint', function() {
     });
 
     it('returns the oauth server endpoint', function() {
-      expect(result).toEqual(uri);
+      expect(result).toEqual(uri.default);
     });
   });
 });

@@ -11,6 +11,7 @@ directives.directive('oauth', function(AccessToken, Endpoint, Profile, $location
       site: '@',          // (required) set the oauth server host (e.g. http://oauth.example.com)
       clientId: '@',      // (required) client id
       redirectUri: '@',   // (required) client redirect uri
+      backend: '@',       // (required) oauth server identifier
       responseType: '@',  // (optional) response type, defaults to token (use 'token' for implicit flow and 'code' for authorization code flow
       scope: '@',         // (optional) scope
       profileUri: '@',    // (optional) user profile uri (e.g http://example.com/me)
@@ -71,7 +72,7 @@ directives.directive('oauth', function(AccessToken, Endpoint, Profile, $location
     };
 
     scope.login = function() {
-      Endpoint.redirect();
+      Endpoint.redirect(scope.backend);
     };
 
     scope.logout = function() {

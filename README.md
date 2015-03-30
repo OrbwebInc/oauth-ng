@@ -4,6 +4,8 @@
 AngularJS directive for the [OAuth 2.0 Authorization code Flow](http://tools.ietf.org/html/rfc6749#section-1.3.1) 
 and the [OAuth 2.0 Implicit Flow](http://tools.ietf.org/html/rfc6749#section-1.3.2).
 
+Modified so it supports multiple directives. Or I am just being horribly wrong.
+
 ## Documentation
 
 [![oauth-ng](http://i.imgur.com/C0xCJcr.png)](https://andreareginato.github.com/oauth-ng)
